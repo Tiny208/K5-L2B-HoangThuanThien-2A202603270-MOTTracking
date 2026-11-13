@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Hướng dẫn chi tiết — Terminal + CVAT Lab Ngày 5</title>
+  <style>
+    :root {
+      --bg: #e9eef3;
+      --card: #fff;
+      --ink: #101820;
+      --muted: #4b5c6b;
+      --line: #c9d4de;
+      --green: #0a7a55;
+      --green-bg: #e4f6ef;
+      --term: #0b1220;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: "Segoe UI", Tahoma, sans-serif;
+      background: var(--bg);
+      color: var(--ink);
+      line-height: 1.5;
+    }
+    header {
+      background: #0f172a;
+      color: #f8fafc;
+      padding: 28px 20px 24px;
+    }
+    header .wrap, main, nav { max-width: 1100px; margin: 0 auto; }
+    header h1 { margin: 0 0 8px; font-size: 1.9rem; }
+    header p { margin: 0; color: #cbd5e1; max-width: 75ch; }
+    nav {
+      display: flex; flex-wrap: wrap; gap: 8px;
+      padding: 14px 20px;
+    }
+    nav a {
+      text-decoration: none; color: var(--green);
+      background: var(--green-bg); border: 1px solid #b6e0d0;
+      padding: 7px 12px; border-radius: 999px; font-size: .92rem;
+    }
+    main { padding: 4px 20px 72px; }
+    section {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 22px;
+      margin: 16px 0;
+      box-shadow: 0 10px 28px rgba(16,24,32,.05);
+    }
+    h2 { margin: 0 0 6px; font-size: 1.4rem; }
+    h3 { margin: 18px 0 8px; font-size: 1.08rem; }
+    .lead { color: var(--muted); margin: 0 0 14px; }
+    .cmd {
+      background: var(--term);
+      color: #e2e8f0;
+      border-radius: 12px;
+      padding: 14px 16px;
+      overflow-x: auto;
+      font-family: Consolas, "Courier New", monospace;
+      font-size: .95rem;
+      margin: 10px 0 14px;
+      white-space: pre;
+    }
+    .cmd .c { color: #7dd3fc; }
+    .cmd .o { color: #86efac; }
+    .shot {
+      margin: 10px 0 4px;
+      border: 2px solid #94a3b8;
+      border-radius: 12px;
+      overflow: hidden;
+      background: #000;
+    }
+    .shot img {
+      display: block;
+      width: 100%;
+      height: auto;
+    }
+    figcaption {
+      margin: 0 0 16px;
+      font-size: .95rem;
+      color: var(--muted);
+      font-weight: 600;
+    }
+    .badge {
+      display: inline-block;
+      font-size: .75rem;
+      font-weight: 700;
+      letter-spacing: .04em;
+      text-transform: uppercase;
+      padding: 3px 8px;
+      border-radius: 6px;
+      margin-right: 8px;
+      vertical-align: middle;
+    }
+    .badge.term { background: #dbeafe; color: #1e40af; }
+    .badge.cvat { background: #fce7f3; color: #9d174d; }
+    .ok, .warn, .note {
+      border-radius: 10px; padding: 12px 14px; margin: 12px 0;
+    }
+    .ok { background: var(--green-bg); border: 1px solid #b6e0d0; }
+    .warn { background: #fff7ed; border: 1px solid #fdba74; color: #9a3412; }
+    .note { background: #eff6ff; border: 1px solid #bfdbfe; }
+    table { width: 100%; border-collapse: collapse; margin-top: 8px; }
+    th, td { border: 1px solid var(--line); padding: 8px 10px; text-align: left; }
+    th { background: #f8fafc; }
+    .kbd {
+      display: inline-block; padding: 1px 7px;
+      border: 1px solid #cbd5e1; border-bottom-width: 2px;
+      border-radius: 6px; background: #fff;
+      font-family: Consolas, monospace; font-size: .9em;
+    }
+    ol { padding-left: 1.3rem; }
+    li { margin: 6px 0; }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="wrap">
+      <h1>Lab Ngày 5 — Hướng dẫn chi tiết (Terminal + CVAT)</h1>
+      <p>
+        Mỗi bước bên dưới có <strong>lệnh PowerShell</strong> và
+        <strong>ảnh chụp toàn màn hình / toàn trang</strong> thật trên máy.
+        Làm theo thứ tự từ trên xuống.
+      </p>
+    </div>
+  </header>
+
+  <nav>
+    <a href="#t1">1. Terminal setup</a>
+    <a href="#t2">2. Tải ảnh</a>
+    <a href="#t3">3. Docker CVAT</a>
+    <a href="#c1">4. Mở CVAT</a>
+    <a href="#c2">5. Settings</a>
+    <a href="#c3">6. Vẽ Track</a>
+    <a href="#c4">7. Export + check</a>
+  </nav>
+
+  <main>
+
+    <!-- ========== TERMINAL ========== -->
+    <section id="t1">
+      <h2><span class="badge term">Terminal</span> Bước 1 — Vào repo, tạo venv, cài thư viện</h2>
+      <p class="lead">Mở PowerShell (Win + R → <code>powershell</code> → Enter), phóng to cửa sổ, gõ lần lượt:</p>
+
+      <div class="cmd"><span class="c"># 1) Vào thư mục repo</span>
+cd C:\Users\phamv\Downloads\K5-L2-MOTTracking
+
+<span class="c"># 2) Tạo môi trường ảo Python</span>
+py -3 -m venv .venv
+
+<span class="c"># 3) Cài cvat-sdk + Pillow (file requirements-local.txt)</span>
+.\.venv\Scripts\python.exe -m pip install -r src/requirements-local.txt</div>
+
+      <figure class="shot">
+        <img src="screenshots/T01.png" alt="Terminal bước cd vào repo toàn màn hình" />
+      </figure>
+      <figcaption>Ảnh T01 — PowerShell toàn màn hình: đã <code>cd</code> vào repo.</figcaption>
+
+      <figure class="shot">
+        <img src="screenshots/T02.png" alt="Terminal tạo venv" />
+      </figure>
+      <figcaption>Ảnh T02 — Tạo <code>.venv</code> (nếu đã có thì bỏ qua).</figcaption>
+
+      <figure class="shot">
+        <img src="screenshots/T03.png" alt="Terminal pip install requirements" />
+      </figure>
+      <figcaption>Ảnh T03 — <code>pip install -r src/requirements-local.txt</code> (thấy <code>cvat-sdk</code>, Pillow…).</figcaption>
+    </section>
+
+    <section id="t2">
+      <h2><span class="badge term">Terminal</span> Bước 2 — Nhận đề theo MSSV + tải 150 ảnh</h2>
+      <p class="lead">Đổi <code>DEMO2024</code> thành MSSV thật của bạn.</p>
+
+      <div class="cmd"><span class="c"># Chỉ xem mã đề (A/B/C) — không cần mật khẩu CVAT</span>
+.\.venv\Scripts\python.exe src/setup_local_lab.py --mssv DEMO2024 --assignment-only
+
+<span class="c"># Tải 150 ảnh MOT17-09 + tạo bảng nhận diện P1–P5</span>
+.\.venv\Scripts\python.exe src/setup_local_lab.py --mssv DEMO2024 --prepare-only
+
+<span class="c"># Kiểm tra đã đủ 150 ảnh</span>
+(Get-ChildItem .lab-local\mot17-09\*.jpg).Count</div>
+
+      <figure class="shot">
+        <img src="screenshots/T07.png" alt="Terminal assignment prepare docker" />
+      </figure>
+      <figcaption>
+        Ảnh T07 — Kết quả thật:
+        <code>Đề B | Task: DAY05-MOT17-09-B-DEMO2024</code>,
+        ảnh nhận diện <code>.lab-local\de-B-P1-P5.jpg</code>,
+        thư mục gốc <code>.lab-local\mot17-09</code>,
+        <strong>Tổng số ảnh: 150</strong>.
+      </figcaption>
+
+      <figure class="shot">
+        <img src="screenshots/05-bang-nhan-dien-de-B.jpg" alt="Bảng nhận diện P1-P5 đề B" />
+      </figure>
+      <figcaption>Ảnh bảng nhận diện — mở file JPG này cạnh CVAT để tìm đúng P1…P5.</figcaption>
+
+      <div class="note">
+        Khi sẵn sàng tạo task trên CVAT, chạy <strong>không</strong> có <code>--prepare-only</code>
+        (sẽ hỏi username + mật khẩu CVAT local):
+        <div class="cmd" style="margin-top:10px">.\.venv\Scripts\python.exe src/setup_local_lab.py --mssv MSSV_CUA_BAN</div>
+        Script in ra link <strong>Task</strong> và <strong>Job</strong>.
+      </div>
+    </section>
+
+    <section id="t3">
+      <h2><span class="badge term">Terminal</span> Bước 3 — Kiểm tra Docker CVAT đang chạy</h2>
+
+      <div class="cmd">docker ps --format "table {{.Names}}\t{{.Status}}\t{{.Ports}}"</div>
+
+      <figure class="shot">
+        <img src="screenshots/T07.png" alt="docker ps hiện cvat containers" />
+      </figure>
+      <figcaption>
+        Ảnh T07 (phần dưới) — phải thấy <code>cvat_ui</code>, <code>cvat_server</code>,
+        <code>traefik</code> map cổng <code>8080</code>.
+      </figcaption>
+
+      <div class="ok">Mở trình duyệt: <code>http://localhost:8080</code> → thấy trang Sign in / Tasks là OK.</div>
+    </section>
+
+    <!-- ========== CVAT ========== -->
+    <section id="c1">
+      <h2><span class="badge cvat">CVAT</span> Bước 4 — Đăng nhập, tìm task, mở job</h2>
+      <ol>
+        <li>Vào <code>http://localhost:8080</code>, đăng nhập tài khoản CVAT trên máy bạn.</li>
+        <li>Tab <strong>Tasks</strong> → search đúng tên task script đã in
+          (ví dụ <code>DAY05-MOT17-09-B-DEMO2024</code>).</li>
+        <li>Mở task → kiểm tra nhãn <code>person</code>, Job có <strong>Frame range 0–149</strong> (150 frame).</li>
+        <li>Bấm Job để vào workspace annotation.</li>
+      </ol>
+
+      <figure class="shot">
+        <img src="screenshots/C01-tasks-list.png" alt="Tasks list full page search DAY05" />
+      </figure>
+      <figcaption>Ảnh C01 — Tasks (full page): tìm thấy <code>#50: DAY05-MOT17-09-B-DEMO2024</code>.</figcaption>
+
+      <figure class="shot">
+        <img src="screenshots/C02-task-detail.png" alt="Task detail job 48 150 frames" />
+      </figure>
+      <figcaption>Ảnh C02 — Chi tiết task: label <code>person</code>, Job #48, Frame count 150, range 0–149.</figcaption>
+
+      <figure class="shot">
+        <img src="screenshots/C03-job-workspace.png" alt="Job workspace frame 0 full page" />
+      </figure>
+      <figcaption>Ảnh C03 — Job workspace toàn trang: frame 0 / file <code>000001.jpg</code>.</figcaption>
+    </section>
+
+    <section id="c2">
+      <h2><span class="badge cvat">CVAT</span> Bước 5 — CP0: Settings Player + Workspace</h2>
+      <p class="lead">Trong job, bấm <span class="kbd">F2</span> (hoặc menu user → Settings).</p>
+      <ol>
+        <li><strong>Player</strong>: đặt <code>Player step = 10</code> → phím <span class="kbd">V</span>/<span class="kbd">C</span> nhảy 10 frame.</li>
+        <li><strong>Workspace</strong>: bật <em>Enable auto save</em>, bật <em>Always show object details</em>.</li>
+        <li>Xem hết 150 frame một lượt; mở bảng nhận diện, ghi chỗ rẽ / che của P1–P5.</li>
+      </ol>
+
+      <figure class="shot">
+        <img src="screenshots/C04-settings-player.png" alt="Settings Player step 10 full page" />
+      </figure>
+      <figcaption>Ảnh C04 — Settings → Player: <strong>Player step = 10</strong> (full page).</figcaption>
+
+      <figure class="shot">
+        <img src="screenshots/C05-settings-workspace.png" alt="Settings Workspace auto save full page" />
+      </figure>
+      <figcaption>Ảnh C05 — Settings → Workspace: auto save + luôn hiện text object (full page).</figcaption>
+
+      <h3>Phím dùng liên tục</h3>
+      <table>
+        <tr><th>Phím</th><th>Tác dụng</th></tr>
+        <tr><td><span class="kbd">N</span></td><td>Bắt đầu / kết thúc vẽ</td></tr>
+        <tr><td><span class="kbd">F</span> / <span class="kbd">D</span></td><td>Frame sau / trước</td></tr>
+        <tr><td><span class="kbd">V</span> / <span class="kbd">C</span></td><td>Nhảy ±10 frame</td></tr>
+        <tr><td><span class="kbd">K</span></td><td>Keyframe</td></tr>
+        <tr><td><span class="kbd">Q</span></td><td>Occluded</td></tr>
+        <tr><td><span class="kbd">O</span></td><td>Outside</td></tr>
+        <tr><td><span class="kbd">M</span></td><td>Merge</td></tr>
+        <tr><td><span class="kbd">Ctrl</span>+<span class="kbd">S</span></td><td>Lưu</td></tr>
+      </table>
+      <div class="warn">Không dùng Propagate (<span class="kbd">Ctrl</span>+<span class="kbd">B</span>) — tạo shape rời, không có track ID chung.</div>
+    </section>
+
+    <section id="c3">
+      <h2><span class="badge cvat">CVAT</span> Bước 6 — CP1: Vẽ Rectangle Track</h2>
+      <ol>
+        <li>Về frame xuất hiện đầu của người (theo bảng nhận diện).</li>
+        <li>Thanh trái → <strong>Rectangle</strong>.</li>
+        <li>Popup: Label = <code>person</code> → chọn <strong>Track</strong> (không chọn Shape) → Drawing method = By 2 points.</li>
+        <li>Vẽ sát toàn thân; đặt tên object <code>P1</code>…<code>P5</code>.</li>
+        <li>Nhảy <span class="kbd">V</span>; box lệch thì kéo (tự thành keyframe). Tua <span class="kbd">F</span> giữa 2 keyframe để sửa drift.</li>
+        <li><span class="kbd">Ctrl</span>+<span class="kbd">S</span> sau mỗi người. Panel Objects phải có đúng 5 dòng dạng <code>RECTANGLE TRACK</code>.</li>
+      </ol>
+
+      <figure class="shot">
+        <img src="screenshots/08-draw-rectangle-track.png" alt="Popup Draw new rectangle Track" />
+      </figure>
+      <figcaption>Ảnh C08 — Popup vẽ: chọn <strong>Track</strong> (không phải Shape).</figcaption>
+
+      <figure class="shot">
+        <img src="screenshots/09-ready-to-draw-track.png" alt="Canvas ready to draw track" />
+      </figure>
+      <figcaption>Ảnh C09 — Canvas sẵn sàng vẽ track (full page).</figcaption>
+
+      <figure class="shot">
+        <img src="screenshots/C03-job-workspace.png" alt="Objects panel RECTANGLE TRACK" />
+      </figure>
+      <figcaption>Ảnh C03 (nhìn Objects) — phải thấy <code>RECTANGLE TRACK person</code>, không phải hàng chục shape rời.</figcaption>
+
+      <h3>CP2 nhanh — đoạn bị che (P1)</h3>
+      <ul>
+        <li>Che một phần: <span class="kbd">Q</span> (occluded), box vẫn bao toàn thân ước lượng.</li>
+        <li>Mất hẳn: <span class="kbd">O</span> (outside).</li>
+        <li>Hiện lại ≤ 60 frame: tắt outside, giữ <strong>cùng ID</strong>. Lỡ 2 track → Merge <span class="kbd">M</span>.</li>
+      </ul>
+    </section>
+
+    <section id="c4">
+      <h2><span class="badge cvat">CVAT</span> + <span class="badge term">Terminal</span> Bước 7 — Export + tự kiểm</h2>
+
+      <h3>7a. Export trên CVAT (2 lần)</h3>
+      <ol>
+        <li>Job → <strong>Menu</strong> → <strong>Export job dataset</strong>.</li>
+        <li>Lần 1: format <strong>MOT 1.1</strong>, <em>Save images = OFF</em>, tên <code>HoVaTen_mot.zip</code>.</li>
+        <li>Lần 2: format <strong>CVAT for video 1.1</strong>, Save images OFF, tên <code>HoVaTen_cvat_video.zip</code>.</li>
+        <li>Đặt cả hai vào <code>src/exports/</code>.</li>
+      </ol>
+
+      <figure class="shot">
+        <img src="screenshots/C06-menu-export.png" alt="Menu Export job dataset full page" />
+      </figure>
+      <figcaption>Ảnh C06 — Menu → Export job dataset (full page).</figcaption>
+
+      <figure class="shot">
+        <img src="screenshots/C07-export-dialog.png" alt="Export dialog Save images off" />
+      </figure>
+      <figcaption>Ảnh C07 — Dialog export: tắt <strong>Save images</strong>, chọn format MOT 1.1 hoặc CVAT for video 1.1.</figcaption>
+
+      <figure class="shot">
+        <img src="screenshots/11-export-dialog.png" alt="Export dialog chi tiết khác" />
+      </figure>
+      <figcaption>Ảnh C07b — Góc nhìn dialog export rõ hơn (Save images OFF).</figcaption>
+
+      <h3>7b. Chạy script tự kiểm trong Terminal</h3>
+      <div class="cmd">.\.venv\Scripts\python.exe src/check_submission.py `
+  --mot  src/exports/HoVaTen_mot.zip `
+  --cvat src/exports/HoVaTen_cvat_video.zip</div>
+
+      <figure class="shot">
+        <img src="screenshots/T10-check-submission.png" alt="Terminal check_submission help toàn màn hình" />
+      </figure>
+      <figcaption>
+        Ảnh T10 — Terminal toàn màn hình: lệnh <code>check_submission.py</code>
+        và các tham số <code>--mot</code> / <code>--cvat</code>.
+        Kết quả đạt: <code>Số track ID: 5</code>, không còn dòng <code>[LỖI]</code>.
+      </figcaption>
+
+      <div class="ok">
+        Xong CP4: 2 file trong <code>src/exports/</code>, báo cáo
+        <code>report/individual/MSSV_HoTen.md</code> đủ mục, job → completed.
+      </div>
+    </section>
+
+    <section>
+      <h2>Phụ lục — Copy nhanh toàn bộ lệnh</h2>
+      <div class="cmd">cd C:\Users\phamv\Downloads\K5-L2-MOTTracking
+py -3 -m venv .venv
+.\.venv\Scripts\python.exe -m pip install -r src/requirements-local.txt
+
+.\.venv\Scripts\python.exe src/setup_local_lab.py --mssv MSSV_CUA_BAN --assignment-only
+.\.venv\Scripts\python.exe src/setup_local_lab.py --mssv MSSV_CUA_BAN --prepare-only
+.\.venv\Scripts\python.exe src/setup_local_lab.py --mssv MSSV_CUA_BAN
+
+docker ps --format "table {{.Names}}\t{{.Status}}\t{{.Ports}}"
+
+.\.venv\Scripts\python.exe src/check_submission.py `
+  --mot  src/exports/HoVaTen_mot.zip `
+  --cvat src/exports/HoVaTen_cvat_video.zip</div>
+      <p class="note">
+        Mở lại hướng dẫn: double-click <code>tools/lab05/huong-dan-cvat.html</code>
+        hoặc <code>http://localhost:8765/huong-dan-cvat.html</code> nếu đang serve.
+        Doc gốc: <code>docs/CVAT_LOCAL_SETUP.md</code>, <code>CHECKPOINTS.md</code>.
+      </p>
+    </section>
+
+  </main>
+</body>
+</html>
