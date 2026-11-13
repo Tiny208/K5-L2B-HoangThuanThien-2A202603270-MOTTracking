@@ -10,19 +10,19 @@
 - Email: thienhoang20803@gmail.com
 - Link repository: https://github.com/Tiny208/K5-L2B-HoangThuanThien-2A202603270-MOTTracking
 - Giờ bắt đầu: 16:30
-- Giờ kết thúc: 17:40
+- Giờ kết thúc: 18:15
 
 ## 1. Xem trước đoạn video (CP0)
 
-Ghi **trước khi vẽ**, mỗi người một dòng.
+Ghi **trước khi vẽ**, mỗi người một dòng (5 người P1–P5 theo đúng Đề C).
 
 | Mã | Frame xuất hiện | Frame cuối thấy được | Rẽ / dừng / đổi tốc độ ở frame | Bị che ở frame | Ghi chú |
 |---|---|---|---|---|---|
-| P1 | 0 | 149 | ~30 (rẽ), ~110 (chậm lại) | 120–128, 139–148 | Người mép trái; có đoạn ra vào khung và bị che |
-| P2 | 0 | 149 | ~40–50 (đổi hướng), ~90 | Ít | Đi từ phải sang trái, box to dần |
-| P3 | 0 | 149 | ~60 (rẽ nhẹ), ~120 | Ít | Phía bên phải, di chuyển ổn định |
-| P4 | 0 | 110 | ~35 (đổi tốc độ) | Không | Ra khỏi khung hình trước frame 110 → bật `outside` |
-| P5 | 0 | 148 | ~50 (đổi hướng), ~112 | 112–135 | Bị che khuất hẳn ở đoạn giữa (~24 frame), sau đó hiện lại |
+| P1 | 0 | 149 | ~30 (đổi hướng), ~90 (chậm lại) | 40–49 (bị cột/người che khuất) | Đối tượng trọng tâm CP2; theo dõi kỹ đoạn che |
+| P2 | 60 | 149 | ~70 (tăng tốc nhẹ), ~120 | Ít | Xuất hiện muộn ở frame 60 tại nửa bên trái |
+| P3 | 0 | 149 | ~40–50 (vào sâu trong khung hình) | Ít | Đi từ mép phải sang trái, box to dần khi lại gần |
+| P4 | 0 | 110 | ~35 (đổi tốc độ) | Không | Đi từ giữa khung hình, ra khỏi khung ở frame 110 |
+| P5 | 0 | 149 | ~28 (đổi hướng), ~110 | 120–128, 139–148 | Đi sát mép trái, có 2 đoạn ra mép khung hình |
 
 ## 2. Keyframe và thời gian (CP1, CP4)
 
@@ -30,37 +30,37 @@ Số keyframe lấy từ kết quả `src/check_submission.py`.
 
 | Mã | Số keyframe | Keyframe ở frame | Số frame có mặt | Keyframe / 100 frame | Thời gian (phút) | Chỗ khó |
 |---|---|---|---|---|---|---|
-| P1 | 16 | 0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 110, 119, 129, 130, 149 | 131 | 12.2 | 15 | Bị che và ra mép khung hình 2 lần |
-| P2 | 16 | 0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 110, 120, 130, 140, 149 | 150 | 10.7 | 12 | Box đổi kích thước khi lại gần |
-| P3 | 16 | 0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 110, 120, 130, 140, 149 | 150 | 10.7 | 10 | Đi từ xa lại gần, bám sát người khác |
-| P4 | 6 | 0, 10, 20, 30, 40, 70 | 110 | 5.5 | 8 | Ra khỏi khung hình ở frame 110 |
-| P5 | 9 | 0, 10, 20, 30, 40, 50, 70, 136, 140 | 125 | 7.2 | 15 | Bị che khuất 24 frame (112–135), cần giữ cùng ID |
-| **Tổng** | **63** | | **666** | | **60** | |
+| P1 | 15 | 0, 10, 20, 30, 50, 60, 70, 80, 90, 100, 110, 120, 130, 140, 149 | 140 | 10.7 | 15 | Đoạn che khuất frame 40–49; giữ cùng ID |
+| P2 | 14 | 60, 69, 70, 79, 80, 90, 100, 110, 119, 120, 129, 130, 140, 149 | 90 | 15.6 | 12 | Xuất hiện giữa chừng, cần bắt đúng frame 60 |
+| P3 | 16 | 0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 110, 120, 130, 140, 149 | 150 | 10.7 | 12 | Box thay đổi kích thước khi lại gần camera |
+| P4 | 6 | 0, 10, 20, 30, 40, 70 | 110 | 5.5 | 8 | Ra khỏi khung hình trước frame 110 |
+| P5 | 16 | 0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 110, 119, 129, 130, 149 | 131 | 12.2 | 13 | Mép trái phức tạp, có 2 lần bật outside |
+| **Tổng** | **67** | | **621** | | **60** | |
 
-Keyframe / 100 frame của cả bài = tổng keyframe ÷ tổng số frame có mặt × 100 = 63 ÷ 666 × 100 ≈ **9.5**
+Keyframe / 100 frame của cả bài = tổng keyframe ÷ tổng số frame có mặt × 100 = 67 ÷ 621 × 100 ≈ **10.8**
 
 Bạn đặt keyframe nhiều nhất ở người nào? Vì sao (người đó rẽ, dừng, lại gần camera hay bị che)?
 
-Đặt keyframe nhiều nhất ở P1 và P2 (16 keyframe mỗi người). Đối với P1, người này di chuyển phức tạp ở mép khung hình và có 2 đoạn bị che khuất/ra ngoài khung nên cần đặt keyframe dày quanh các mốc 119–130 để nội suy không cắt góc và không làm trôi box. Đối với P2, box thay đổi tỷ lệ kích thước đáng kể khi di chuyển lại gần camera.
+Đặt keyframe nhiều nhất ở P3, P5 (16 keyframe) và P2 (mật độ cao nhất 15.6 keyframe/100 frame). Đối với P2, do xuất hiện từ frame 60 và di chuyển qua khu vực đông người đi bộ nên cần phân bổ keyframe dày quanh các frame 69–70 và 119–120 để box nội suy không cắt góc. Đối với P1, cần kiểm soát kỹ quanh đoạn bị che khuất ở frame 40 để bật cờ outside chính xác.
 
 ## 3. Đoạn bị che (CP2)
 
-Người bị che: `P5` (và đoạn khuất của `P1`)
+Người bị che: **`P1`** (Target 1 — Người trọng tâm CP2 của Đề C)
 
 | Mốc | Frame |
 |---|---:|
-| Bắt đầu bị che một phần (bật `occluded`) | 110 |
-| Mất hẳn (bật `outside`) | 112 |
-| Hiện lại (tắt `outside`) | 136 |
-| Thấy rõ trở lại (tắt `occluded`) | 140 |
+| Bắt đầu bị che một phần (bật `occluded`) | 35 |
+| Mất hẳn (bật `outside`) | 40 |
+| Hiện lại (tắt `outside`) | 50 |
+| Thấy rõ trở lại (tắt `occluded`) | 55 |
 
-- Thời gian khuất hẳn: **24** frame = **0.8** giây (24/30).
+- Thời gian khuất hẳn: **10** frame = **0.33** giây (10/30).
 - Quyết định: **giữ cùng ID**.
 - Lý do (trả lời 3 câu: khuất bao lâu so với 60 frame, ngoại hình có khớp, chỗ hiện lại có đúng hướng và tốc độ):
 
-1. **Thời gian khuất:** Khuất 24 frame $\ll 60$ frame (ngưỡng 2 giây của lớp) $\rightarrow$ hoàn toàn đủ điều kiện giữ nguyên cùng track ID.
-2. **Ngoại hình:** Trang phục, màu áo và vóc dáng lúc hiện lại ở frame 136 hoàn toàn trùng khớp với người trước khi bị che ở frame 110.
-3. **Quỹ đạo và vận tốc:** Vị trí hiện lại tiếp nối đúng hướng đi và tốc độ chuyển động dự kiến $\rightarrow$ tắt `outside` tại frame 136, chỉnh box và tạo keyframe mới, không tạo track mới.
+1. **Thời gian khuất:** Khuất hẳn 10 frame $\ll 60$ frame (ngưỡng 2 giây của lớp) $\rightarrow$ hoàn toàn đủ điều kiện duy trì cùng một track ID.
+2. **Ngoại hình:** Áo sơ mi sáng màu, quần và dáng vóc lúc hiện lại ở frame 50 hoàn toàn trùng khớp với P1 trước khi bị che ở frame 35–40.
+3. **Quỹ đạo và vận tốc:** Vị trí hiện lại tiếp nối chuẩn xác hướng di chuyển từ trái sang phải với tốc độ ổn định $\rightarrow$ tắt `outside` tại frame 50, chỉnh lại box tạo keyframe mới, không tạo track mới.
 
 Ảnh chụp màn hình:
 
@@ -76,19 +76,19 @@ Loại lỗi dùng đúng một trong 7 mã: `id_switch`, `fragmentation`, `lost
 
 | Frame | Mã người | Loại lỗi | Mô tả một câu | Phát hiện ở lượt | Đã sửa? |
 |---:|---|---|---|---|---|
-| 0–149 | Object rác | `false_track` | Xuất hiện các track thừa (ID 16, 17, 19, 22) do thao tác nhầm và chỉ có 1-2 frame | 2 (theo cảnh) | Có — Đã xoá toàn bộ các track thừa khỏi Objects panel |
-| 140–149 | P1 | `fragmentation` | Người P1 khi vào lại khung hình ở mép bị vẽ thành track mới (ID 21) | 1 (theo người) | Có — Dùng phím M (Merge) để gộp chung về cùng 1 track ID duy nhất |
-| 112–135 | P5 | `flag` | Đoạn bị che khuất hẳn ban đầu quên bật cờ outside khiến box nội suy chạy qua vùng khuất | 1 (theo người) | Có — Bật outside từ frame 112 và tắt ở frame 136 |
+| 0–149 | Object rác | `false_track` | Phát hiện nhầm 2 track thuộc Đề A/B (Target 19 & 21) và các track click nhầm | 2 (theo cảnh) | Có — Đã xoá bỏ 2 track nhầm đề và vẽ bù đúng P1, P2 của Đề C |
+| 40–49 | P1 | `flag` | Đoạn mất hẳn tầm nhìn ban đầu chưa bật cờ outside làm box nội suy trôi qua vật cản | 1 (theo người) | Có — Đã bật outside tại frame 40 và tắt tại frame 50 |
+| 60–75 | P2 | `drift` | Box nội suy bị lệch nhẹ khi người P2 mới xuất hiện ở frame 60 và bắt đầu tăng tốc | 1 (theo người) | Có — Thêm keyframe tại frame 69, 70 để box ôm sát thân người |
 
 Tổng hợp số lỗi theo loại:
 
 | `id_switch` | `fragmentation` | `lost` | `merge` | `false_track` | `drift` | `flag` |
 |---:|---:|---:|---:|---:|---:|---:|
-| 0 | 1 | 0 | 0 | 4 | 0 | 1 |
+| 0 | 0 | 0 | 0 | 2 | 1 | 1 |
 
 Lỗi nào chỉ lượt 2 (theo cảnh) mới thấy, lượt 1 (theo người) không thấy? Vì sao?
 
-Lỗi `false_track` (các track thừa, box đứng yên hoặc chỉ tồn tại 1 frame): Khi review theo từng người (lượt 1), ta chỉ tập trung theo dõi từng đối tượng chính nên dễ bỏ sót các box nhỏ/rác nằm rải rác trong danh sách Objects. Khi nhảy 10 frame xem toàn cảnh (lượt 2) và kiểm tra danh sách tổng, các track lạ không có chuyển động mới lộ diện rõ ràng.
+Lỗi `false_track` (gán nhầm người của đề khác hoặc vẽ đối tượng thừa): Khi theo dõi riêng từng người ở lượt 1, mỗi box đều có vẻ bám đúng người đang nhìn. Chỉ khi kiểm tra toàn cảnh ở lượt 2 và đối chiếu kỹ với bảng nhận diện 5 người của Đề C mới phát hiện ra hai track bị nhầm lẫn đối tượng mục tiêu.
 
 ## 5. File xuất và kết quả tự kiểm (CP4)
 
@@ -106,15 +106,15 @@ Dán phần tóm tắt in ra từ `src/check_submission.py`:
 Số frame in theo CVAT (bắt đầu từ 0). Trong gt.txt, frame_id = frame CVAT + 1.
 
 === File MOT 1.1: HoangThuanThien_mot.zip ===
-  Số track ID: 5   |   Tổng số box: 666
+  Số track ID: 5   |   Tổng số box: 621
   [OK]        Đúng 5 track ID.
 
   Track | Frame có mặt | Số frame | Đoạn vắng (outside)
       1 |   0–149      |      131 | 120–128, 139–148
       2 |   0–149      |      150 | -
-      3 |   0–149      |      150 | -
-      4 |   0–109      |      110 | -
-      5 |   0–148      |      125 | 112–135
+      3 |   0–109      |      110 | -
+      4 |   0–149      |      140 | 40–49
+      5 |  60–149      |       90 | -
 
 
 === File CVAT for video 1.1: HoangThuanThien_cvat_video.zip ===
@@ -124,14 +124,14 @@ Số frame in theo CVAT (bắt đầu từ 0). Trong gt.txt, frame_id = frame CV
               Track 0: keyframe ở frame [0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 110, 119, 129, 130, 149]
       1 | person |        150 |       16 |         10.7 |              0 |               0
               Track 1: keyframe ở frame [0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 110, 120, 130, 140, 149]
-      2 | person |        150 |       16 |         10.7 |              0 |               0
-              Track 2: keyframe ở frame [0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 110, 120, 130, 140, 149]
-      3 | person |        110 |        6 |          5.5 |              0 |               1
-              Track 3: keyframe ở frame [0, 10, 20, 30, 40, 70]
-      4 | person |        125 |        9 |          7.2 |              0 |               2
-              Track 4: keyframe ở frame [0, 10, 20, 30, 40, 50, 70, 136, 140]
+      2 | person |        110 |        6 |          5.5 |              0 |               1
+              Track 2: keyframe ở frame [0, 10, 20, 30, 40, 70]
+      3 | person |        140 |       15 |         10.7 |              0 |               1
+              Track 3: keyframe ở frame [0, 10, 20, 30, 50, 60, 70, 80, 90, 100, 110, 120, 130, 140, 149]
+      4 | person |         90 |       14 |         15.6 |              0 |               0
+              Track 4: keyframe ở frame [60, 69, 70, 79, 80, 90, 100, 110, 119, 120, 129, 130, 140, 149]
 
-  Tổng: 63 keyframe / 666 frame có mặt = 9.5 keyframe / 100 frame
+  Tổng: 67 keyframe / 621 frame có mặt = 10.8 keyframe / 100 frame
   [OK]        Đọc được 5 track từ annotations.xml.
 
 === Tóm tắt ===
@@ -143,21 +143,21 @@ Số frame in theo CVAT (bắt đầu từ 0). Trong gt.txt, frame_id = frame CV
 
 1. **Nếu được gán lại, bạn sẽ đặt keyframe khác ở đâu? Vì sao?**
 
-   Nếu gán lại, tôi sẽ phân bổ thêm 1–2 keyframe ngay sát mép của đoạn khuất (frame 111 và frame 137) để kiểm soát thật chặt quỹ đạo trước khi vào và ngay sau khi rời khỏi chướng ngại vật, tránh hiện tượng box bị giật góc do nội suy tuyến tính cố nối hai điểm cách xa nhau.
+   Nếu được gán lại từ đầu, tôi sẽ phân bổ keyframe ngay từ đầu dày hơn quanh các đoạn bắt đầu xuất hiện của P2 (frame 60) và đoạn bị che của P1 (frame 38–52). Điều này giúp thuật toán nội suy tuyến tính không bao giờ bị cắt góc hoặc trôi box khi đối tượng vừa chuyển trạng thái chuyển động.
 
 2. **Có chỗ nào bạn không chắc "cùng ID hay ID mới"? Bạn đã quyết định và ghi chú thế nào?**
 
-   Ở đoạn frame 112–135 của P5 khi bị che mất tầm nhìn hoàn toàn trong 24 frame: Tôi đã phân vân liệu có nên cấp ID mới hay không. Tuy nhiên, đối chiếu với guideline của bài (ngưỡng 60 frame = 2 giây), thời gian mất dấu 24 frame ($\approx 0.8$s) ngắn hơn nhiều so với ngưỡng, đồng thời dáng người và tốc độ xuất hiện lại hoàn toàn ăn khớp, nên tôi quyết định giữ cùng track ID và tắt cờ `outside` tại frame 136.
+   Ở đoạn frame 40–49 của P1 khi bị che khuất hoàn toàn: Lúc đầu tôi hơi ngập ngừng vì sợ người đi ngang qua cắt mặt làm đổi danh tính. Tuy nhiên, áp dụng chặt chẽ 3 tiêu chí của guideline (thời gian khuất 10 frame $\ll 60$ frame, màu áo và dáng người khớp 100%, hướng đi tiếp nối chuẩn xác), tôi quyết định giữ cùng một Track ID duy nhất.
 
 3. **Một lỗi ID trong job của bạn (nếu không còn sót, chọn lỗi đã sửa) có thể làm xe tự lái dự đoán sai chuyển động của người đó như thế nào? Lỗi đó ảnh hưởng MOTA hay IDF1 nhiều hơn?**
 
-   Lỗi `fragmentation` (người P1 bị tách làm 2 track riêng biệt) nếu không được sửa bằng Merge sẽ khiến module tracking của xe tự lái coi đây là 2 người hoàn toàn khác nhau. Hệ thống sẽ nghĩ có một người biến mất đột ngột và một người mới xuất hiện bất thình lình, dẫn đến ước lượng vector vận tốc bị đứt gãy và thuật toán dự đoán quỹ đạo (motion planning) đưa ra quyết định sai lầm. Lỗi này làm giảm mạnh chỉ số **IDF1** (chỉ số đo lường khả năng duy trì danh tính đối tượng theo thời gian), vì toàn bộ chuỗi theo dõi bị xé nhỏ dù MOTA có thể chỉ bị phạt nhẹ ở điểm ID switch/FN cục bộ.
+   Nếu lỗi nhầm đối tượng (`false_track`) hoặc đứt gãy ID (`fragmentation`) xảy ra, hệ thống tự lái sẽ dự đoán sai quỹ đạo di chuyển (motion forecasting). Ví dụ, nếu xe nghĩ một người biến mất và có người mới xuất hiện, vector vận tốc tức thời sẽ bị tính toán sai lệch nghiêm trọng, dẫn đến việc phanh gấp hoặc đánh lái sai lầm. Lỗi này ảnh hưởng nặng nề nhất tới chỉ số **IDF1** vì IDF1 đánh giá khả năng duy trì danh tính đối tượng liên tục xuyên suốt chuỗi thời gian, trong khi MOTA chủ yếu phản ánh chất lượng phát hiện (detection) ở từng frame cục bộ.
 
 ## Bonus (nếu làm)
 
 ### B1 — Hai người đi sát
 
-Không làm (tập trung hoàn thiện tối đa điểm chính CP0–CP4).
+Không làm (tập trung tối đa cho 100 điểm chính của CP0–CP4).
 
 ### B2 — So cách đặt keyframe
 
@@ -169,6 +169,6 @@ Không làm.
 
 ## 7. Tài liệu tham khảo và công cụ AI đã dùng
 
-- CVAT Community Documentation: hướng dẫn sử dụng chế độ Track Mode, Keyframe Interpolation, Merge Track (`M`), phím tắt `Q` (`occluded`), `O` (`outside`).
-- Bộ tài liệu Guideline và Rubric bài Lab Ngày 5 (VinAI K5-L2).
-- Sử dụng trợ lý AI để kiểm tra cú pháp, giải thích kết quả `check_submission.py` và tối ưu báo cáo cá nhân.
+- CVAT Community Documentation: hướng dẫn chế độ Track Mode, cờ Keyframe, cờ `outside` và `occluded`.
+- Guideline, Rubric & Checkpoints của khóa học VinAI K5-L2.
+- Trợ lý AI để tự kiểm tra lỗi logic, giải thích chi tiết báo cáo và định dạng markdown chuẩn.
